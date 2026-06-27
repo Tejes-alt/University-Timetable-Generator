@@ -1,0 +1,242 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        AI Search
+
+        <span class="text-gradient">
+
+            Laboratory
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Visualize how the University Timetable Generator
+        explores timetable states using AI search algorithms
+        and heuristics.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= CONTROLS ============== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <div style="
+        display:flex;
+        gap:16px;
+        flex-wrap:wrap;
+    ">
+
+        <button class="btn-primary"
+            onclick="runSearch('bfs')">
+
+            Run BFS
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runSearch('dfs')">
+
+            Run DFS
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runSearch('ucs')">
+
+            Run UCS
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runSearch('greedy')">
+
+            Run Greedy
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runSearch('astar')">
+
+            Run A*
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= SEARCH GRAPH ========== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        Timetable State Space Graph
+
+    </h2>
+
+    <div class="graph-container">
+
+        <div class="graph-node"
+            id="node-A">
+
+            Initial
+        </div>
+
+        <div class="graph-node"
+            id="node-B">
+
+            Faculty
+        </div>
+
+        <div class="graph-node"
+            id="node-C">
+
+            Rooms
+        </div>
+
+        <div class="graph-node"
+            id="node-D">
+
+            Constraints
+        </div>
+
+        <div class="graph-node"
+            id="node-E">
+
+            CSP
+        </div>
+
+        <div class="graph-node"
+            id="node-F">
+
+            Optimization
+        </div>
+
+        <div class="graph-node"
+            id="node-G">
+
+            Final Schedule
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= METRICS =============== -->
+<!-- ================================= -->
+
+<div class="metric-grid">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+
+            Expanded Nodes
+
+        </div>
+
+        <div class="metric-value"
+            id="expanded-count">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+
+            Frontier Size
+
+        </div>
+
+        <div class="metric-value"
+            id="frontier-count">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Heuristic Cost
+
+        </div>
+
+        <div class="metric-value"
+            id="heuristic-cost">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Goal Status
+
+        </div>
+
+        <div class="metric-value"
+            id="goal-status">
+
+            Idle
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= TRACE TERMINAL ======== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-top:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        AI Search Execution Trace
+
+    </h2>
+
+    <div class="trace-terminal"
+        id="search-trace">
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+
+{% endblock %}
+

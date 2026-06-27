@@ -1,0 +1,582 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================================= -->
+<!-- ========== HERO SECTION ========= -->
+<!-- ================================= -->
+
+<div style="
+    text-align:center;
+    margin-bottom:60px;
+">
+
+    <div class="status-badge status-info"
+        style="
+            margin-bottom:18px;
+            display:inline-flex;
+        ">
+
+        ⚡ Explainable AI Scheduling Platform
+
+    </div>
+
+    <h1 class="page-title">
+
+        University
+
+        <span class="text-gradient">
+            Timetable Intelligence System
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle"
+        style="
+            margin:0 auto;
+        ">
+
+        Integrated AI reasoning platform combining
+        CSP optimization, heuristic search,
+        Bayesian inference, adversarial decision-making,
+        explainable AI pipelines, and uncertainty reasoning.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= LIVE METRICS ========== -->
+<!-- ================================= -->
+
+<div class="metric-grid"
+    style="
+        margin-bottom:50px;
+    ">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+            Active Constraints
+        </div>
+
+        <div class="metric-value"
+            id="constraint-count">
+
+            128
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+            Search Nodes Expanded
+        </div>
+
+        <div class="metric-value"
+            id="search-count">
+
+            1240
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            Inference Accuracy
+        </div>
+
+        <div class="metric-value">
+
+            93%
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            Utility Score
+        </div>
+
+        <div class="metric-value">
+
+            91
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= AI MODULE GRID ======== -->
+<!-- ================================= -->
+
+<div class="ai-grid">
+
+    <div class="ai-card"
+        onclick="window.location.href='/generate-view'">
+
+        <div class="ai-card-icon">
+            ⚙️
+        </div>
+
+        <h3>
+            CSP Scheduling Engine
+        </h3>
+
+        <p>
+
+            Constraint Satisfaction Problem solver using
+            backtracking, MRV, LCV,
+            propagation, and heuristic optimization.
+
+        </p>
+
+    </div>
+
+    <div class="ai-card"
+        onclick="window.location.href='/search-lab'">
+
+        <div class="ai-card-icon">
+            🧠
+        </div>
+
+        <h3>
+            Search Algorithms
+        </h3>
+
+        <p>
+
+            BFS, DFS, UCS, Greedy Search,
+            and A* exploration with
+            heuristic reasoning and traversal visualization.
+
+        </p>
+
+    </div>
+
+    <div class="ai-card"
+        onclick="window.location.href='/decision-engine'">
+
+        <div class="ai-card-icon">
+            ♟️
+        </div>
+
+        <h3>
+            Decision Agents
+        </h3>
+
+        <p>
+
+            Minimax, Alpha-Beta pruning,
+            adversarial scheduling,
+            and utility-based policy selection.
+
+        </p>
+
+    </div>
+
+    <div class="ai-card"
+        onclick="window.location.href='/uncertainty'">
+
+        <div class="ai-card-icon">
+            📊
+        </div>
+
+        <h3>
+            Uncertainty Reasoning
+        </h3>
+
+        <p>
+
+            Bayesian Networks,
+            Markov Models,
+            Monte Carlo sampling,
+            diagnosis and tracking AI systems.
+
+        </p>
+
+    </div>
+
+    <div class="ai-card"
+        onclick="window.location.href='/analytics'">
+
+        <div class="ai-card-icon">
+            📈
+        </div>
+
+        <h3>
+            Performance Analytics
+        </h3>
+
+        <p>
+
+            Compare time complexity,
+            memory trade-offs,
+            heuristic quality,
+            pruning efficiency,
+            and search performance.
+
+        </p>
+
+    </div>
+
+    <div class="ai-card"
+        onclick="window.location.href='/timetable'">
+
+        <div class="ai-card-icon">
+            📅
+        </div>
+
+        <h3>
+            AI Timetable Output
+        </h3>
+
+        <p>
+
+            Final explainable timetable generation
+            with reasoning traces,
+            constraint proofs,
+            and inference summaries.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= SYSTEM OVERVIEW ======= -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="
+        margin-top:50px;
+    ">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:24px;
+        flex-wrap:wrap;
+        gap:16px;
+    ">
+
+        <div>
+
+            <h2 style="
+                margin-bottom:8px;
+            ">
+
+                AI Pipeline Overview
+
+            </h2>
+
+            <p style="
+                color:var(--text-muted);
+            ">
+
+                Integrated reasoning architecture
+
+            </p>
+
+        </div>
+
+        <div class="status-badge status-success">
+
+            ● Pipeline Operational
+
+        </div>
+
+    </div>
+
+    <div class="flow-container">
+
+        <div class="flow-step active">
+            Knowledge Representation
+        </div>
+
+        <div class="flow-step active">
+            CSP Constraint Solving
+        </div>
+
+        <div class="flow-step active">
+            Graph Search & Heuristics
+        </div>
+
+        <div class="flow-step active">
+            Bayesian Inference
+        </div>
+
+        <div class="flow-step active">
+            Decision Agent Evaluation
+        </div>
+
+        <div class="flow-step active">
+            Explainable AI Output
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= REASONING TRACE ======= -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="
+        margin-top:40px;
+    ">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+    ">
+
+        <div>
+
+            <h2>
+                Live Reasoning Trace
+            </h2>
+
+            <p style="
+                color:var(--text-muted);
+                margin-top:8px;
+            ">
+
+                Real-time explainable AI execution
+
+            </p>
+
+        </div>
+
+        <button class="btn-primary"
+            onclick="runFullPipeline()">
+
+            ▶ Run AI Pipeline
+
+        </button>
+
+    </div>
+
+    <div id="reasoning-trace"
+        class="trace-terminal">
+
+        <div class="trace-line info">
+
+            <div class="trace-title">
+                System Ready
+            </div>
+
+            <div class="trace-description">
+                Waiting for AI pipeline execution...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= RESOURCE GRID ========= -->
+<!-- ================================= -->
+
+<div style="
+    margin-top:50px;
+">
+
+    <h2 style="
+        margin-bottom:24px;
+    ">
+
+        Resource Intelligence
+
+    </h2>
+
+    <div style="
+        display:grid;
+        grid-template-columns:
+            repeat(auto-fit,minmax(220px,1fr));
+        gap:24px;
+    ">
+
+        <div class="glass-panel stat-card"
+            onclick="openModal('departments')"
+            style="
+                text-align:center;
+                cursor:pointer;
+            ">
+
+            <div class="card-icon">
+                🏢
+            </div>
+
+            <h3 style="
+                color:var(--text-muted);
+                margin-bottom:10px;
+            ">
+                Departments
+            </h3>
+
+            <p id="stat-dept"
+                class="text-gradient"
+                style="
+                    font-size:3rem;
+                    font-weight:700;
+                ">
+                -
+            </p>
+
+        </div>
+
+        <div class="glass-panel stat-card"
+            onclick="openModal('faculty')"
+            style="
+                text-align:center;
+                cursor:pointer;
+            ">
+
+            <div class="card-icon">
+                👨‍🏫
+            </div>
+
+            <h3 style="
+                color:var(--text-muted);
+                margin-bottom:10px;
+            ">
+                Faculty
+            </h3>
+
+            <p id="stat-fac"
+                class="text-gradient"
+                style="
+                    font-size:3rem;
+                    font-weight:700;
+                ">
+                -
+            </p>
+
+        </div>
+
+        <div class="glass-panel stat-card"
+            onclick="openModal('rooms')"
+            style="
+                text-align:center;
+                cursor:pointer;
+            ">
+
+            <div class="card-icon">
+                🚪
+            </div>
+
+            <h3 style="
+                color:var(--text-muted);
+                margin-bottom:10px;
+            ">
+                Rooms
+            </h3>
+
+            <p id="stat-rooms"
+                class="text-gradient"
+                style="
+                    font-size:3rem;
+                    font-weight:700;
+                ">
+                -
+            </p>
+
+        </div>
+
+        <div class="glass-panel stat-card"
+            onclick="openModal('subjects')"
+            style="
+                text-align:center;
+                cursor:pointer;
+            ">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3 style="
+                color:var(--text-muted);
+                margin-bottom:10px;
+            ">
+                Subjects
+            </h3>
+
+            <p id="stat-subj"
+                class="text-gradient"
+                style="
+                    font-size:3rem;
+                    font-weight:700;
+                ">
+                -
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const labels = {
+
+    departments: 'Departments',
+    faculty: 'Faculty Members',
+    rooms: 'Rooms',
+    subjects: 'Subjects'
+};
+
+fetch('/api/stats')
+
+.then(res => res.json())
+
+.then(data => {
+
+    document.getElementById(
+        'stat-dept'
+    ).innerText = data.departments;
+
+    document.getElementById(
+        'stat-fac'
+    ).innerText = data.faculty;
+
+    document.getElementById(
+        'stat-rooms'
+    ).innerText = data.rooms;
+
+    document.getElementById(
+        'stat-subj'
+    ).innerText = data.subjects;
+
+});
+
+function openModal(kind){
+
+    alert(
+        `Open ${kind} modal here`
+    );
+
+}
+
+</script>
+
+<script src="{{ url_for('static',
+filename='js/dashboard.js') }}"></script>
+
+{% endblock %}

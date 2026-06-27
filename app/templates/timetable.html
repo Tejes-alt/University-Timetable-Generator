@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% set days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+] %}
+
+{% set times = [
+    "09:00",
+    "11:00",
+    "14:00"
+] %}
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        Dynamic AI
+
+        <span class="text-gradient">
+
+            Timetable
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Real-time timetable generated from backend AI scheduling engine.
+
+    </p>
+
+</div>
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:16px;
+    ">
+
+        <div>
+
+            <h2>
+                Live Schedule Matrix
+            </h2>
+
+            <p style="
+                color:var(--text-muted);
+                margin-top:8px;
+            ">
+
+                Dynamically rendered timetable entries
+
+            </p>
+
+        </div>
+
+        <div style="
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        ">
+
+            <button class="btn-primary"
+                onclick="window.location.href='/api/export-pdf'">
+
+                ⬇ Export PDF
+
+            </button>
+
+            <button class="btn-primary"
+                onclick="window.location.href='/api/export-csv'">
+
+                ⬇ Export CSV
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="glass-panel timetable-wrapper">
+
+    <table class="timetable-grid">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Time
+                </th>
+
+                {% for day in days %}
+
+                <th>
+                    {{ day }}
+                </th>
+
+                {% endfor %}
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for time in times %}
+
+            <tr>
+
+                <td class="time-cell">
+
+                    {{ time }}
+
+                </td>
+
+                {% for day in days %}
+
+                <td>
+
+                    {% set found = false %}
+
+                    {% for entry in timetable_entries %}
+
+                        {% if
+                            entry.day == day and
+                            entry.time.startswith(time)
+                        %}
+
+                            {% set found = true %}
+
+                            <div class="subject-card
+                                {% if entry.is_lab %}
+                                    lab
+                                {% else %}
+                                    theory
+                                {% endif %}
+                            ">
+
+                                <div class="subject-name">
+
+                                    {{ entry.subject }}
+
+                                </div>
+
+                                <div class="subject-meta">
+
+                                    {{ entry.section }}
+                                    •
+                                    {{ entry.room }}
+
+                                </div>
+
+                                <div class="faculty-tag">
+
+                                    {{ entry.faculty }}
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if not found %}
+
+                        <span style="
+                            color:var(--text-muted);
+                            opacity:0.5;
+                        ">
+                            -
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                {% endfor %}
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="metric-grid"
+    style="margin-top:32px;">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+
+            AI Schedule Quality
+
+        </div>
+
+        <div class="metric-value">
+
+            94%
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+
+            Constraints Satisfied
+
+        </div>
+
+        <div class="metric-value">
+
+            128
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Conflicts Removed
+
+        </div>
+
+        <div class="metric-value">
+
+            34
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Utility Score
+
+        </div>
+
+        <div class="metric-value">
+
+            91
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

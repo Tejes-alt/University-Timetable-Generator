@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:40px;">
+    <h1 class="page-title">
+        AI <span class="text-gradient">Algorithms Laboratory</span>
+    </h1>
+
+    <p class="page-subtitle">
+        Explore graph search, heuristic reasoning, CSP optimization,
+        adversarial search, uncertainty reasoning, and explainable AI pipelines.
+    </p>
+</div>
+
+<div class="ai-grid">
+
+    <div class="ai-card" onclick="window.location.href='/search-lab'">
+        <div class="ai-card-icon">🧠</div>
+        <h3>Graph Search</h3>
+        <p>
+            BFS, DFS, UCS, Greedy, and A* visualization with
+            traversal traces and heuristic evaluation.
+        </p>
+    </div>
+
+    <div class="ai-card" onclick="window.location.href='/generate-view'">
+        <div class="ai-card-icon">⚙️</div>
+        <h3>CSP Engine</h3>
+        <p>
+            Backtracking, MRV, LCV, forward checking,
+            constraint propagation, and pruning visualization.
+        </p>
+    </div>
+
+    <div class="ai-card" onclick="window.location.href='/decision-engine'">
+        <div class="ai-card-icon">♟️</div>
+        <h3>Decision Agents</h3>
+        <p>
+            Minimax, Alpha-Beta pruning,
+            utility reasoning, and adversarial scheduling policies.
+        </p>
+    </div>
+
+    <div class="ai-card" onclick="window.location.href='/uncertainty'">
+        <div class="ai-card-icon">📊</div>
+        <h3>Uncertainty AI</h3>
+        <p>
+            Bayesian networks, Markov models,
+            probabilistic diagnosis, and tracking systems.
+        </p>
+    </div>
+
+    <div class="ai-card" onclick="window.location.href='/analytics'">
+        <div class="ai-card-icon">📈</div>
+        <h3>Analytics</h3>
+        <p>
+            Compare time complexity, memory usage,
+            pruning efficiency, and algorithmic performance.
+        </p>
+    </div>
+
+    <div class="ai-card" onclick="window.location.href='/timetable'">
+        <div class="ai-card-icon">📅</div>
+        <h3>Final Timetable</h3>
+        <p>
+            View optimized AI-generated schedules with
+            explainable allocation traces.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

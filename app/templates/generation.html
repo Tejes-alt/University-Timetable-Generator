@@ -1,0 +1,674 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 20px;">
+
+    <div>
+
+        <h2>
+            AI Concept &
+            <span class="text-gradient">
+                Viva Dashboard
+            </span>
+        </h2>
+
+        <p style="color: var(--text-muted); margin-top:4px;">
+            Watch the CSP solver map heuristic decisions in real-time
+            to your syllabus.
+        </p>
+
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+
+        <label style="color: var(--neon-blue); display: flex; align-items: center; gap: 8px; cursor: pointer;">
+
+            <input
+                type="checkbox"
+                id="demo-mode-toggle"
+                style="width:18px;height:18px; accent-color: var(--neon-purple);"
+            >
+
+            Faculty Demo Mode (Slow-Mo)
+
+        </label>
+
+        <div
+            id="status-badge"
+            style="
+                padding: 10px 20px;
+                border-radius: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                font-weight: bold;
+            "
+        >
+
+            Awaiting Initialization...
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    style="
+        display: grid;
+        grid-template-columns: 2fr 1.2fr;
+        gap: 24px;
+        margin-bottom: 24px;
+    "
+>
+
+    <!-- LEFT -->
+
+    <div
+        class="glass-panel"
+        style="
+            display:flex;
+            flex-direction:column;
+            height: 600px;
+        "
+    >
+
+        <h3
+            style="
+                margin-bottom: 16px;
+                border-bottom: 1px solid var(--glass-border);
+                padding-bottom: 8px;
+            "
+        >
+
+            Live Engine Trace
+
+        </h3>
+
+        <div
+            id="terminal-screen"
+            style="
+                flex:1;
+                overflow-y: auto;
+                padding-right: 8px;
+            "
+        >
+        </div>
+
+        <div style="margin-top: 16px; text-align: right;">
+
+            <button
+                id="view-btn"
+                class="btn-primary"
+                style="display:none;"
+                onclick="window.location.href='/timetable'"
+            >
+
+                View Timetable →
+
+            </button>
+
+            <button
+                id="start-btn"
+                class="btn-primary"
+                onclick="startGeneration()"
+            >
+
+                Start Generation
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div
+        style="
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 600px;
+        "
+    >
+
+        <!-- ACTIVE PANEL -->
+
+        <div class="glass-panel" style="flex: 1;">
+
+            <h4
+                style="
+                    color: var(--text-muted);
+                    margin-bottom: 12px;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                "
+            >
+
+                Active Syllabus Topic
+
+            </h4>
+
+            <div
+                id="active-syllabus-badge"
+                style="
+                    display:inline-block;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    background: rgba(138,43,226,0.2);
+                    border: 1px solid var(--neon-purple);
+                    color: white;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    width: 100%;
+                    text-align:center;
+                    transition: all 0.3s;
+                    margin-bottom: 16px;
+                "
+            >
+
+                Idle
+
+            </div>
+
+            <h4
+                style="
+                    color: var(--text-muted);
+                    margin-bottom: 8px;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                "
+            >
+
+                Algorithm Flow
+
+            </h4>
+
+            <div
+                style="
+                    font-size: 0.85rem;
+                    color: var(--text-light);
+                    line-height: 1.8;
+                "
+            >
+
+                <div id="flow-mrv" class="flow-step">
+                    1. MRV Variable Selection
+                </div>
+
+                <div id="flow-lcv" class="flow-step">
+                    2. LCV Value Ordering
+                </div>
+
+                <div id="flow-constraints" class="flow-step">
+                    3. Constraint Validation
+                </div>
+
+                <div id="flow-fc" class="flow-step">
+                    4. Forward Checking
+                </div>
+
+                <div id="flow-bt" class="flow-step">
+                    5. Backtracking
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CONFLICT PANEL -->
+
+        <div
+            class="glass-panel"
+            style="
+                flex: 1;
+                border-color: rgba(255, 60, 60, 0.3);
+            "
+        >
+
+            <h4
+                style="
+                    color: #ff5555;
+                    margin-bottom: 12px;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                "
+            >
+
+                Conflict Analytics
+
+            </h4>
+
+            <div
+                id="fail-panel"
+                style="
+                    font-size: 0.85rem;
+                    color: var(--text-muted);
+                "
+            >
+
+                No conflicts detected yet.
+
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            "
+        >
+
+            <div
+                class="glass-panel"
+                style="
+                    padding: 12px;
+                    text-align:center;
+                "
+            >
+
+                <div
+                    style="
+                        font-size: 0.8rem;
+                        color: var(--text-muted);
+                    "
+                >
+
+                    Expansions
+
+                </div>
+
+                <div
+                    id="stat-nodes"
+                    style="
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                    "
+                >
+
+                    0
+
+                </div>
+
+            </div>
+
+            <div
+                class="glass-panel"
+                style="
+                    padding: 12px;
+                    text-align:center;
+                "
+            >
+
+                <div
+                    style="
+                        font-size: 0.8rem;
+                        color: var(--text-muted);
+                    "
+                >
+
+                    Prunes
+
+                </div>
+
+                <div
+                    id="stat-prunes"
+                    style="
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                        color: var(--neon-blue);
+                    "
+                >
+
+                    0
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CSP TRACE -->
+
+<div
+    class="glass-panel"
+    style="margin-top:30px;"
+>
+
+    <div
+        style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        "
+    >
+
+        <div>
+
+            <h2>
+                CSP Execution Trace
+            </h2>
+
+            <p
+                style="
+                    color:var(--text-muted);
+                    margin-top:8px;
+                "
+            >
+
+                Live constraint solving visualization
+
+            </p>
+
+        </div>
+
+        <button
+            class="btn-primary"
+            onclick="runCSP()"
+        >
+
+            ▶ Run CSP
+
+        </button>
+
+    </div>
+
+    <div
+        id="csp-trace"
+        class="trace-terminal"
+    >
+    </div>
+
+</div>
+
+<style>
+
+.flow-step {
+
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    background: rgba(255, 255, 255, 0.02);
+    transition: background 0.3s, color 0.3s;
+
+}
+
+.flow-active {
+
+    background: rgba(0, 240, 255, 0.2);
+    color: var(--neon-blue);
+    font-weight: 600;
+    border-left: 3px solid var(--neon-blue);
+
+}
+
+.loading-pulse {
+
+    animation: pulse 1.5s infinite;
+
+}
+
+@keyframes pulse {
+
+    0% { opacity: 0.5; }
+
+    50% { opacity: 1; }
+
+    100% { opacity: 0.5; }
+
+}
+
+</style>
+
+<script>
+
+const term = document.getElementById('terminal-screen');
+
+const badge = document.getElementById('status-badge');
+
+const syllabusBadge =
+    document.getElementById(
+        'active-syllabus-badge'
+    );
+
+const failPanel =
+    document.getElementById(
+        'fail-panel'
+    );
+
+const startBtn =
+    document.getElementById(
+        'start-btn'
+    );
+
+function setFlowActive(id){
+
+    document
+        .querySelectorAll('.flow-step')
+        .forEach(e =>
+            e.classList.remove(
+                'flow-active'
+            )
+        );
+
+    if(id){
+
+        document
+            .getElementById(id)
+            .classList.add(
+                'flow-active'
+            );
+    }
+
+}
+
+function logLine(t){
+
+    const div =
+        document.createElement('div');
+
+    div.style.marginBottom = '12px';
+
+    div.style.padding = '12px';
+
+    div.style.borderRadius = '6px';
+
+    div.style.background =
+        'rgba(0,0,0,0.2)';
+
+    div.style.borderLeft =
+        '3px solid var(--text-muted)';
+
+    let titleColor =
+        'var(--neon-blue)';
+
+    if(
+        t.action === 'CONSTRAINT_FAIL' ||
+        t.action === 'BACKTRACK'
+    ){
+
+        titleColor = '#ff5555';
+
+        div.style.borderLeftColor =
+            '#ff5555';
+    }
+
+    div.innerHTML = `
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+        ">
+
+            <strong style="
+                color:${titleColor};
+            ">
+
+                ${t.action}
+
+            </strong>
+
+        </div>
+
+        <div style="
+            color:var(--text-muted);
+            line-height:1.5;
+        ">
+
+            ${t.reason || ''}
+
+        </div>
+
+    `;
+
+    term.appendChild(div);
+
+    term.scrollTop =
+        term.scrollHeight;
+
+}
+
+function startGeneration(){
+
+    startBtn.style.display =
+        'none';
+
+    term.innerHTML = '';
+
+    badge.innerText =
+        'Engine Compiling...';
+
+    const isDemoMode =
+        document.getElementById(
+            'demo-mode-toggle'
+        ).checked;
+
+    const modeFlag =
+        isDemoMode ? 'demo' : 'fast';
+
+    fetch('/api/generate', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type':
+                'application/json'
+        },
+
+        body: JSON.stringify({
+
+            mode: modeFlag
+        })
+
+    })
+
+    .then(r => r.json())
+
+    .then(data => {
+
+        badge.innerText =
+            'OPTIMIZATION COMPLETE';
+
+        document.getElementById(
+            'view-btn'
+        ).style.display =
+            'inline-block';
+
+        document.getElementById(
+            'stat-nodes'
+        ).innerText =
+            data.stats.nodes_expanded;
+
+        document.getElementById(
+            'stat-prunes'
+        ).innerText =
+            data.stats.pruned_domains;
+
+        let i = 0;
+
+        let interval = setInterval(() => {
+
+            if(i >= data.trace.length){
+
+                clearInterval(interval);
+
+                syllabusBadge.innerText =
+                    'Completed';
+
+                return;
+            }
+
+            const t = data.trace[i];
+
+            logLine(t);
+
+            if(t.syllabus_tag){
+
+                syllabusBadge.innerText =
+                    t.syllabus_tag;
+            }
+
+            if(t.action === 'SELECT_VAR')
+                setFlowActive('flow-mrv');
+
+            else if(t.action === 'ASSIGN')
+                setFlowActive('flow-lcv');
+
+            else if(
+                t.action.includes('FAIL')
+            )
+                setFlowActive(
+                    'flow-constraints'
+                );
+
+            else if(
+                t.action === 'BACKTRACK'
+            )
+                setFlowActive(
+                    'flow-bt'
+                );
+
+            i++;
+
+        }, 25);
+
+    })
+
+    .catch(err => {
+
+        console.error(err);
+
+        badge.innerText =
+            'SERVER ERROR';
+
+        term.innerHTML = `
+
+            <div style="
+                color:#ff5555;
+            ">
+
+                Server crashed while generating.
+
+            </div>
+
+        `;
+    });
+
+}
+
+</script>
+
+<script src="{{ url_for('static', filename='js/csp.js') }}"></script>
+
+{% endblock %}

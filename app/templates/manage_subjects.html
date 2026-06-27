@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">
+
+    Manage
+
+    <span class="text-gradient">
+        Subjects
+    </span>
+
+</h1>
+
+<div class="glass-panel"
+    style="margin-top:24px;">
+
+    <form method="POST"
+        action="/add-subject">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Subject Name"
+            required
+            class="form-input">
+
+        <label style="display:block; margin-bottom:16px;">
+
+            <input
+                type="checkbox"
+                name="is_lab">
+
+            Is Lab Subject
+
+        </label>
+
+        <button class="btn-primary">
+
+            Add Subject
+
+        </button>
+
+    </form>
+
+</div>
+
+<div class="glass-panel"
+    style="margin-top:24px;">
+
+    <table class="analytics-table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Name</th>
+                <th>Lab</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for s in subjects %}
+
+            <tr>
+
+                <td>{{ s.id }}</td>
+                <td>{{ s.name }}</td>
+                <td>{{ s.is_lab }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

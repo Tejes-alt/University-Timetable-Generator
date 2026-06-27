@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        Decision
+
+        <span class="text-gradient">
+
+            Agents
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Minimax reasoning,
+        Alpha-Beta pruning,
+        utility optimization,
+        and adversarial AI visualization.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= CONTROLS ============== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <div style="
+        display:flex;
+        gap:16px;
+        flex-wrap:wrap;
+    ">
+
+        <button class="btn-primary"
+            onclick="runMinimax()">
+
+            ▶ Run Minimax
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runAlphaBeta()">
+
+            ▶ Run Alpha-Beta
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= TREE VISUAL =========== -->
+<!-- ================================= -->
+
+<div class="glass-panel">
+
+    <div class="tree-container">
+
+        <!-- ROOT -->
+
+        <div class="tree-row">
+
+            <div class="tree-node max"
+                id="node-root">
+
+                MAX
+
+            </div>
+
+        </div>
+
+        <!-- LEVEL 2 -->
+
+        <div class="tree-row">
+
+            <div class="tree-node min"
+                id="node-a">
+
+                MIN
+
+            </div>
+
+            <div class="tree-node min"
+                id="node-b">
+
+                MIN
+
+            </div>
+
+        </div>
+
+        <!-- LEVEL 3 -->
+
+        <div class="tree-row">
+
+            <div class="tree-node leaf"
+                id="leaf-5">
+
+                5
+
+            </div>
+
+            <div class="tree-node leaf"
+                id="leaf-8">
+
+                8
+
+            </div>
+
+            <div class="tree-node leaf"
+                id="leaf-2">
+
+                2
+
+            </div>
+
+            <div class="tree-node leaf"
+                id="leaf-9">
+
+                9
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= AI METRICS ============ -->
+<!-- ================================= -->
+
+<div class="metric-grid"
+    style="margin-top:32px;">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+
+            Utility Score
+
+        </div>
+
+        <div class="metric-value"
+            id="utility-score">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+
+            Expanded Nodes
+
+        </div>
+
+        <div class="metric-value"
+            id="expanded-nodes">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Pruned Branches
+
+        </div>
+
+        <div class="metric-value"
+            id="pruned-branches">
+
+            -
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= TRACE TERMINAL ======== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-top:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        Decision Trace
+
+    </h2>
+
+    <div class="trace-terminal"
+        id="decision-trace">
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= SCRIPT ================ -->
+<!-- ================================= -->
+
+<script>
+
+async function runMinimax(){
+
+    const trace =
+        document.getElementById(
+            "decision-trace"
+        );
+
+    trace.innerHTML = `
+
+        <div class="trace-line info">
+
+            <div class="trace-title">
+
+                Initializing Decision Engine
+
+            </div>
+
+            <div class="trace-description">
+
+                Running minimax utility propagation...
+
+            </div>
+
+        </div>
+
+    `;
+
+    resetTree();
+
+    try{
+
+        const response = await fetch(
+            "/api/run-minimax"
+        );
+
+        const data = await response.json();
+
+        trace.innerHTML = "";
+
+        data.steps.forEach((step, index) => {
+
+            setTimeout(() => {
+
+                trace.innerHTML += `
+
+                    <div class="trace-line success">
+
+                        <div class="trace-title">
+
+                            Minimax Execution
+
+                        </div>
+
+                        <div class="trace-description">
+
+                            ${step}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                animateTree(
+                    index
+                );
+
+                trace.scrollTop =
+                    trace.scrollHeight;
+
+            }, index * 900);
+
+        });
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "utility-score"
+            ).innerText =
+                data.utility_score;
+
+            document.getElementById(
+                "expanded-nodes"
+            ).innerText =
+                data.expanded_nodes;
+
+            document.getElementById(
+                "pruned-branches"
+            ).innerText =
+                data.pruned_branches;
+
+            trace.innerHTML += `
+
+                <div class="trace-line info">
+
+                    <div class="trace-title">
+
+                        Explainability Engine
+
+                    </div>
+
+                    <div class="trace-description">
+
+                        ${data.explanations.join("<br><br>")}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }, data.steps.length * 950);
+
+    }
+
+    catch(error){
+
+        trace.innerHTML = `
+
+            <div class="trace-line fail">
+
+                <div class="trace-title">
+
+                    Decision Engine Failure
+
+                </div>
+
+                <div class="trace-description">
+
+                    ${error.message}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+function animateTree(index){
+
+    const nodes = [
+
+        "node-root",
+
+        "node-a",
+
+        "node-b",
+
+        "leaf-5",
+
+        "leaf-8",
+
+        "leaf-2",
+
+        "leaf-9"
+    ];
+
+    if(nodes[index]){
+
+        const node =
+            document.getElementById(
+                nodes[index]
+            );
+
+        node.classList.add(
+            "tree-active"
+        );
+
+    }
+
+}
+
+function resetTree(){
+
+    const allNodes =
+        document.querySelectorAll(
+            ".tree-node"
+        );
+
+    allNodes.forEach(node => {
+
+        node.classList.remove(
+            "tree-active"
+        );
+
+        node.classList.remove(
+            "tree-pruned"
+        );
+
+    });
+
+}
+
+function runAlphaBeta(){
+
+    runMinimax();
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "leaf-2"
+        ).classList.add(
+            "tree-pruned"
+        );
+
+    }, 3200);
+
+}
+
+</script>
+
+{% endblock %}

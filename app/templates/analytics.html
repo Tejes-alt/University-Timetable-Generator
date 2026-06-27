@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        AI Performance
+
+        <span class="text-gradient">
+
+            Analytics
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Empirical comparison of search algorithms,
+        CSP optimization,
+        heuristic efficiency,
+        and AI reasoning performance.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= ANALYTICS GRID ======== -->
+<!-- ================================= -->
+
+<div class="analytics-grid">
+
+    <!-- METRICS -->
+
+    <div class="glass-panel analytics-card small-card">
+
+        <div class="metric-label">
+            Total Algorithms
+        </div>
+
+        <div class="metric-value">
+            11
+        </div>
+
+    </div>
+
+    <div class="glass-panel analytics-card small-card">
+
+        <div class="metric-label">
+            CSP Accuracy
+        </div>
+
+        <div class="metric-value">
+            94%
+        </div>
+
+    </div>
+
+    <div class="glass-panel analytics-card small-card">
+
+        <div class="metric-label">
+            Avg Runtime
+        </div>
+
+        <div class="metric-value">
+            0.82s
+        </div>
+
+    </div>
+
+    <div class="glass-panel analytics-card small-card">
+
+        <div class="metric-label">
+            AI Utility Score
+        </div>
+
+        <div class="metric-value">
+            91
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="glass-panel analytics-card chart-card">
+
+        <h2 class="chart-title">
+            Search Runtime Comparison
+        </h2>
+
+        <canvas id="runtimeChart"></canvas>
+
+    </div>
+
+    <div class="glass-panel analytics-card chart-card">
+
+        <h2 class="chart-title">
+            Memory Usage Analysis
+        </h2>
+
+        <canvas id="memoryChart"></canvas>
+
+    </div>
+
+    <div class="glass-panel analytics-card chart-card">
+
+        <h2 class="chart-title">
+            Heuristic Efficiency
+        </h2>
+
+        <canvas id="heuristicChart"></canvas>
+
+    </div>
+
+    <div class="glass-panel analytics-card full-width-card">
+
+        <h2 class="chart-title">
+            CSP Constraint Satisfaction
+        </h2>
+
+        <canvas id="cspChart"></canvas>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= ANALYTICS TABLE ======= -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-top:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        Algorithm Analysis Summary
+
+    </h2>
+
+    <table class="analytics-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Algorithm</th>
+                <th>Optimal</th>
+                <th>Complete</th>
+                <th>Heuristic</th>
+                <th>Time Complexity</th>
+                <th>Space Complexity</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="analytics-body">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= CHART SCRIPT ========== -->
+<!-- ================================= -->
+
+<script>
+
+window.onload = async function(){
+
+    // =================================
+    // LOAD TABLE DATA
+    // =================================
+
+    const response =
+        await fetch(
+            "/api/analytics-data"
+        );
+
+    const data =
+        await response.json();
+
+    const tableBody =
+        document.getElementById(
+            "analytics-body"
+        );
+
+    data.algorithms.forEach(algo => {
+
+        tableBody.innerHTML += `
+
+            <tr>
+
+                <td>${algo.name}</td>
+
+                <td>
+                    ${algo.optimal ? "Yes" : "No"}
+                </td>
+
+                <td>
+                    Yes
+                </td>
+
+                <td>
+                    ${algo.heuristic ? "Yes" : "No"}
+                </td>
+
+                <td>
+                    ${algo.time}
+                </td>
+
+                <td>
+                    ${algo.memory}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+    // =================================
+    // Runtime Chart
+    // =================================
+
+    new Chart(
+
+        document.getElementById(
+            'runtimeChart'
+        ),
+
+        {
+
+            type: 'bar',
+
+            data: {
+
+                labels: [
+
+                    'BFS',
+                    'DFS',
+                    'UCS',
+                    'Greedy',
+                    'A*'
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: 'Runtime (ms)',
+
+                        data: [
+                            120,
+                            60,
+                            180,
+                            45,
+                            80
+                        ]
+
+                    }
+
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+        }
+    );
+
+    // =================================
+    // Memory Chart
+    // =================================
+
+    new Chart(
+
+        document.getElementById(
+            'memoryChart'
+        ),
+
+        {
+
+            type: 'line',
+
+            data: {
+
+                labels: [
+
+                    'BFS',
+                    'DFS',
+                    'Greedy',
+                    'A*'
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: 'Memory Usage',
+
+                        data: [
+                            95,
+                            40,
+                            60,
+                            75
+                        ],
+
+                        fill: false
+
+                    }
+
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+        }
+    );
+
+    // =================================
+    // Heuristic Chart
+    // =================================
+
+    new Chart(
+
+        document.getElementById(
+            'heuristicChart'
+        ),
+
+        {
+
+            type: 'radar',
+
+            data: {
+
+                labels: [
+
+                    'Speed',
+                    'Optimality',
+                    'Memory',
+                    'Scalability',
+                    'Accuracy'
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: 'A*',
+
+                        data: [
+                            85,
+                            95,
+                            70,
+                            88,
+                            97
+                        ]
+
+                    },
+
+                    {
+
+                        label: 'Greedy',
+
+                        data: [
+                            95,
+                            60,
+                            82,
+                            91,
+                            65
+                        ]
+
+                    }
+
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+        }
+    );
+
+    // =================================
+    // CSP Chart
+    // =================================
+
+    new Chart(
+
+        document.getElementById(
+            'cspChart'
+        ),
+
+        {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+
+                    'Satisfied',
+                    'Reduced',
+                    'Conflicts'
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        data: [
+                            128,
+                            34,
+                            7
+                        ]
+
+                    }
+
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+        }
+    );
+
+};
+
+</script>
+
+{% endblock %}

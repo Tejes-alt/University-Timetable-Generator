@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        Bayesian
+
+        <span class="text-gradient">
+
+            Reasoning
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Probabilistic inference,
+        Markov reasoning,
+        uncertainty modeling,
+        and Bayesian network visualization.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= CONTROLS ============== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <div style="
+        display:flex;
+        gap:16px;
+        flex-wrap:wrap;
+    ">
+
+        <button class="btn-primary"
+            onclick="runBayesianInference()">
+
+            ▶ Run Bayesian Inference
+
+        </button>
+
+        <button class="btn-primary"
+            onclick="runMarkovPrediction()">
+
+            ▶ Run Markov Prediction
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= BAYES NETWORK ========= -->
+<!-- ================================= -->
+
+<div class="glass-panel">
+
+    <div class="bayes-network">
+
+        <!-- ROW 1 -->
+
+        <div class="bayes-row">
+
+            <div class="bayes-node"
+                id="node-faculty">
+
+                Faculty Availability
+
+            </div>
+
+            <div class="bayes-node"
+                id="node-room">
+
+                Room Occupancy
+
+            </div>
+
+        </div>
+
+        <!-- CONNECTOR -->
+
+        <div class="bayes-connector"></div>
+
+        <!-- ROW 2 -->
+
+        <div class="bayes-row">
+
+            <div class="bayes-node result-node"
+                id="node-risk">
+
+                Scheduling Risk
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= METRICS =============== -->
+<!-- ================================= -->
+
+<div class="metric-grid"
+    style="margin-top:32px;">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+
+            Risk Probability
+
+        </div>
+
+        <div class="metric-value"
+            id="risk-probability">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+
+            Current State
+
+        </div>
+
+        <div class="metric-value"
+            id="current-state">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Next State
+
+        </div>
+
+        <div class="metric-value"
+            id="next-state">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Transition Probability
+
+        </div>
+
+        <div class="metric-value"
+            id="transition-probability">
+
+            -
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= TRACE TERMINAL ======== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-top:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        Inference Trace
+
+    </h2>
+
+    <div class="trace-terminal"
+        id="uncertainty-trace">
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= SCRIPT ================ -->
+<!-- ================================= -->
+
+<script>
+
+async function runBayesianInference(){
+
+    const trace =
+        document.getElementById(
+            "uncertainty-trace"
+        );
+
+    trace.innerHTML = `
+
+        <div class="trace-line info">
+
+            <div class="trace-title">
+
+                Initializing Bayesian Engine
+
+            </div>
+
+            <div class="trace-description">
+
+                Computing posterior probabilities...
+
+            </div>
+
+        </div>
+
+    `;
+
+    resetBayes();
+
+    try{
+
+        const response = await fetch(
+            "/api/run-bayes"
+        );
+
+        const data = await response.json();
+
+        trace.innerHTML = "";
+
+        data.inference_steps.forEach((step, index) => {
+
+            setTimeout(() => {
+
+                trace.innerHTML += `
+
+                    <div class="trace-line success">
+
+                        <div class="trace-title">
+
+                            Bayesian Inference
+
+                        </div>
+
+                        <div class="trace-description">
+
+                            ${step}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                animateBayes(index);
+
+                trace.scrollTop =
+                    trace.scrollHeight;
+
+            }, index * 900);
+
+        });
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "risk-probability"
+            ).innerText =
+                data.risk_probability;
+
+            trace.innerHTML += `
+
+                <div class="trace-line info">
+
+                    <div class="trace-title">
+
+                        Explainability Engine
+
+                    </div>
+
+                    <div class="trace-description">
+
+                        ${data.explanations.join("<br><br>")}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }, data.inference_steps.length * 950);
+
+    }
+
+    catch(error){
+
+        trace.innerHTML = `
+
+            <div class="trace-line fail">
+
+                <div class="trace-title">
+
+                    Bayesian Engine Failure
+
+                </div>
+
+                <div class="trace-description">
+
+                    ${error.message}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+async function runMarkovPrediction(){
+
+    const response = await fetch(
+        "/api/run-markov"
+    );
+
+    const data = await response.json();
+
+    document.getElementById(
+        "current-state"
+    ).innerText =
+        data.current_state;
+
+    document.getElementById(
+        "next-state"
+    ).innerText =
+        data.next_state;
+
+    document.getElementById(
+        "transition-probability"
+    ).innerText =
+        data.transition_probability;
+
+}
+
+function animateBayes(index){
+
+    const nodes = [
+
+        "node-faculty",
+
+        "node-room",
+
+        "node-risk"
+    ];
+
+    if(nodes[index]){
+
+        document
+            .getElementById(nodes[index])
+            .classList.add(
+                "bayes-active"
+            );
+
+    }
+
+}
+
+function resetBayes(){
+
+    const nodes =
+        document.querySelectorAll(
+            ".bayes-node"
+        );
+
+    nodes.forEach(node => {
+
+        node.classList.remove(
+            "bayes-active"
+        );
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

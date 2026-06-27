@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">
+
+    AI System
+
+    <span class="text-gradient">
+
+        Management
+
+    </span>
+
+</h1>
+
+<p class="page-subtitle">
+
+    Configure departments,
+    faculty,
+    rooms,
+    and subjects dynamically.
+
+</p>
+
+<div class="analytics-grid"
+    style="margin-top:40px;">
+
+    <a href="/manage/departments"
+        class="glass-panel analytics-card small-card">
+
+        <div class="metric-value">
+            🏢
+        </div>
+
+        <div class="metric-label">
+            Departments
+        </div>
+
+    </a>
+
+    <a href="/manage/faculty"
+        class="glass-panel analytics-card small-card">
+
+        <div class="metric-value">
+            👨‍🏫
+        </div>
+
+        <div class="metric-label">
+            Faculty
+        </div>
+
+    </a>
+
+    <a href="/manage/rooms"
+        class="glass-panel analytics-card small-card">
+
+        <div class="metric-value">
+            🚪
+        </div>
+
+        <div class="metric-label">
+            Rooms
+        </div>
+
+    </a>
+
+    <a href="/manage/subjects"
+        class="glass-panel analytics-card small-card">
+
+        <div class="metric-value">
+            📚
+        </div>
+
+        <div class="metric-label">
+            Subjects
+        </div>
+
+    </a>
+
+</div>
+
+{% endblock %}

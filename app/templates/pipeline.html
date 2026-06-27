@@ -1,0 +1,528 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:32px;">
+
+    <h1 class="page-title">
+
+        Integrated AI
+
+        <span class="text-gradient">
+
+            Pipeline
+
+        </span>
+
+    </h1>
+
+    <p class="page-subtitle">
+
+        Complete AI workflow integrating
+        representation,
+        search,
+        CSP,
+        uncertainty reasoning,
+        decision agents,
+        and explainable AI.
+
+    </p>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= PIPELINE CONTROLS ===== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-bottom:32px;">
+
+    <button class="btn-primary"
+        onclick="runPipeline()">
+
+        ▶ Execute Full AI Pipeline
+
+    </button>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= PIPELINE FLOW ========= -->
+<!-- ================================= -->
+
+<div class="pipeline-wrapper">
+
+    <!-- STEP 1 -->
+
+    <div class="pipeline-stage"
+        id="stage-1">
+
+        <div class="pipeline-icon">
+
+            🧠
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Knowledge Representation
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            State-space modeling
+            and AI problem formulation.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 2 -->
+
+    <div class="pipeline-stage"
+        id="stage-2">
+
+        <div class="pipeline-icon">
+
+            🔍
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Search Algorithms
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            BFS, DFS, Greedy,
+            and A* exploration.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 3 -->
+
+    <div class="pipeline-stage"
+        id="stage-3">
+
+        <div class="pipeline-icon">
+
+            🧩
+
+        </div>
+
+        <div class="pipeline-title">
+
+            CSP Solver
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            Constraint propagation,
+            MRV,
+            and backtracking.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 4 -->
+
+    <div class="pipeline-stage"
+        id="stage-4">
+
+        <div class="pipeline-icon">
+
+            📊
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Bayesian Inference
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            Probabilistic reasoning
+            and uncertainty analysis.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 5 -->
+
+    <div class="pipeline-stage"
+        id="stage-5">
+
+        <div class="pipeline-icon">
+
+            ♟
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Decision Agents
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            Minimax,
+            Alpha-Beta pruning,
+            and utility optimization.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 6 -->
+
+    <div class="pipeline-stage"
+        id="stage-6">
+
+        <div class="pipeline-icon">
+
+            🤖
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Explainable AI
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            Transparent reasoning
+            and trace generation.
+
+        </div>
+
+    </div>
+
+    <div class="pipeline-arrow">
+        →
+    </div>
+
+    <!-- STEP 7 -->
+
+    <div class="pipeline-stage"
+        id="stage-7">
+
+        <div class="pipeline-icon">
+
+            📅
+
+        </div>
+
+        <div class="pipeline-title">
+
+            Final Timetable
+
+        </div>
+
+        <div class="pipeline-desc">
+
+            Optimized conflict-free
+            AI generated scheduling.
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= PIPELINE METRICS ====== -->
+<!-- ================================= -->
+
+<div class="metric-grid"
+    style="margin-top:40px;">
+
+    <div class="metric-card glow-blue">
+
+        <div class="metric-label">
+
+            Pipeline Accuracy
+
+        </div>
+
+        <div class="metric-value"
+            id="pipeline-accuracy">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card glow-purple">
+
+        <div class="metric-label">
+
+            Total AI Modules
+
+        </div>
+
+        <div class="metric-value"
+            id="pipeline-modules">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            Execution Time
+
+        </div>
+
+        <div class="metric-value"
+            id="pipeline-time">
+
+            -
+
+        </div>
+
+    </div>
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+
+            System Status
+
+        </div>
+
+        <div class="metric-value"
+            id="pipeline-status">
+
+            -
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= TRACE TERMINAL ======== -->
+<!-- ================================= -->
+
+<div class="glass-panel"
+    style="margin-top:32px;">
+
+    <h2 style="margin-bottom:24px;">
+
+        Integrated AI Trace
+
+    </h2>
+
+    <div class="trace-terminal"
+        id="pipeline-trace">
+
+    </div>
+
+</div>
+
+<!-- ================================= -->
+<!-- ========= SCRIPT ================ -->
+<!-- ================================= -->
+
+<script>
+
+async function runPipeline(){
+
+    const trace =
+        document.getElementById(
+            "pipeline-trace"
+        );
+
+    trace.innerHTML = `
+
+        <div class="trace-line info">
+
+            <div class="trace-title">
+
+                Initializing AI Pipeline
+
+            </div>
+
+            <div class="trace-description">
+
+                Booting integrated reasoning systems...
+
+            </div>
+
+        </div>
+
+    `;
+
+    resetPipeline();
+
+    try{
+
+        const response = await fetch(
+            "/api/full-ai-pipeline"
+        );
+
+        const data = await response.json();
+
+        trace.innerHTML = "";
+
+        data.pipeline.forEach((step, index) => {
+
+            setTimeout(() => {
+
+                trace.innerHTML += `
+
+                    <div class="trace-line success">
+
+                        <div class="trace-title">
+
+                            AI Pipeline Stage
+
+                        </div>
+
+                        <div class="trace-description">
+
+                            ${step}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                activateStage(index + 1);
+
+                trace.scrollTop =
+                    trace.scrollHeight;
+
+            }, index * 1000);
+
+        });
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "pipeline-accuracy"
+            ).innerText =
+                data.generated_schedule_score + "%";
+
+            document.getElementById(
+                "pipeline-modules"
+            ).innerText =
+                data.pipeline.length;
+
+            document.getElementById(
+                "pipeline-time"
+            ).innerText =
+                data.execution_time + "s";
+
+            document.getElementById(
+                "pipeline-status"
+            ).innerText =
+                data.status;
+
+        }, data.pipeline.length * 1050);
+
+    }
+
+    catch(error){
+
+        trace.innerHTML = `
+
+            <div class="trace-line fail">
+
+                <div class="trace-title">
+
+                    Pipeline Failure
+
+                </div>
+
+                <div class="trace-description">
+
+                    ${error.message}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+function activateStage(number){
+
+    const stage =
+        document.getElementById(
+            `stage-${number}`
+        );
+
+    if(stage){
+
+        stage.classList.add(
+            "pipeline-active"
+        );
+
+    }
+
+}
+
+function resetPipeline(){
+
+    const stages =
+        document.querySelectorAll(
+            ".pipeline-stage"
+        );
+
+    stages.forEach(stage => {
+
+        stage.classList.remove(
+            "pipeline-active"
+        );
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

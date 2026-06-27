@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        AI Timetable Generator Platform
+    </title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static',
+        filename='css/index.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ================================= -->
+    <!-- ========= BACKGROUND FX ========= -->
+    <!-- ================================= -->
+
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <!-- ================================= -->
+    <!-- ========= APP SHELL ============= -->
+    <!-- ================================= -->
+
+    <div class="app-shell">
+
+        <!-- ================================= -->
+        <!-- ========= SIDEBAR =============== -->
+        <!-- ================================= -->
+
+        <aside class="sidebar">
+
+            <div>
+
+                <!-- LOGO -->
+
+                <div class="sidebar-logo">
+
+                    <div class="logo-dot"></div>
+
+                    <div>
+
+                        <div class="logo-title">
+
+                            University AI
+
+                        </div>
+
+                        <div class="logo-subtitle">
+
+                            Timetable System
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NAVIGATION -->
+
+                <div class="sidebar-section-title">
+
+                    CORE
+
+                </div>
+
+                <div class="sidebar-nav">
+
+                    <a href="/"
+                        class="sidebar-link">
+
+                        🏠 Dashboard
+
+                    </a>
+
+                    <a href="/generate-view"
+                        class="sidebar-link">
+
+                        ⚙ CSP Engine
+
+                    </a>
+
+                    <a href="/timetable"
+                        class="sidebar-link">
+
+                        📅 Timetable
+
+                    </a>
+
+                </div>
+
+                <!-- AI -->
+
+                <div class="sidebar-section-title">
+
+                    AI SYSTEMS
+
+                </div>
+
+                <div class="sidebar-nav">
+
+                    <a href="/algorithms"
+                        class="sidebar-link">
+
+                        🧠 Algorithms
+
+                    </a>
+
+                    <a href="/search-lab"
+                        class="sidebar-link">
+
+                        🔍 Search Lab
+
+                    </a>
+
+                    <a href="/uncertainty"
+                        class="sidebar-link">
+
+                        📊 Uncertainty AI
+
+                    </a>
+
+                    <a href="/decision-engine"
+                        class="sidebar-link">
+
+                        ♟ Decision AI
+
+                    </a>
+
+                </div>
+
+                <!-- ANALYTICS -->
+
+                <div class="sidebar-section-title">
+
+                    ANALYTICS
+
+                </div>
+
+                <div class="sidebar-nav">
+
+                    <a href="/analytics"
+                        class="sidebar-link">
+
+                        📈 Analytics
+
+                    </a>
+
+                    <a href="/pipeline"
+                        class="sidebar-link">
+
+                        🔗 AI Pipeline
+
+                    </a>
+
+                </div>
+
+                <!-- MANAGEMENT -->
+
+                <div class="sidebar-section-title">
+
+                    MANAGEMENT
+
+                </div>
+
+                <div class="sidebar-nav">
+
+                    <a href="/manage"
+                        class="sidebar-link">
+
+                        ⚙ Manage System
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- ================================= -->
+            <!-- ========= AI STATUS ============= -->
+            <!-- ================================= -->
+
+            <div class="sidebar-status glass-panel">
+
+                <div class="status-row">
+
+                    <div class="status-dot"></div>
+
+                    <span>
+
+                        AI Pipeline Active
+
+                    </span>
+
+                </div>
+
+                <div class="mini-stats">
+
+                    <div>
+
+                        CSP Accuracy:
+                        <span>94%</span>
+
+                    </div>
+
+                    <div>
+
+                        Runtime:
+                        <span>0.82s</span>
+
+                    </div>
+
+                    <div>
+
+                        Utility Score:
+                        <span>91</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- ================================= -->
+        <!-- ========= MAIN CONTENT ========== -->
+        <!-- ================================= -->
+
+        <main class="content-area">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

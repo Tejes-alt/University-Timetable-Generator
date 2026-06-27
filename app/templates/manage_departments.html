@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">
+
+    Manage
+
+    <span class="text-gradient">
+        Departments
+    </span>
+
+</h1>
+
+<div class="glass-panel"
+    style="margin-top:24px;">
+
+    <form method="POST"
+        action="/add-department">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Department Name"
+            required
+            class="form-input">
+
+        <input
+            type="text"
+            name="code"
+            placeholder="Department Code"
+            required
+            class="form-input">
+
+        <button class="btn-primary">
+
+            Add Department
+
+        </button>
+
+    </form>
+
+</div>
+
+<div class="glass-panel"
+    style="margin-top:24px;">
+
+    <table class="analytics-table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Name</th>
+                <th>Code</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for d in departments %}
+
+            <tr>
+
+                <td>{{ d.id }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.code }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
