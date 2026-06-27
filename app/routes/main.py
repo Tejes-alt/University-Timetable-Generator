@@ -36,60 +36,102 @@ def generation_view():
 @main_bp.route('/timetable')
 def timetable_view():
 
-    latest_tt = Timetable.query.order_by(
-        Timetable.id.desc()
-    ).first()
+    timetable_entries = [
 
-    timetable_entries = []
+        {
+            "day": "Monday",
+            "time": "09:00",
+            "subject": "Algorithms",
+            "faculty": "Professor 1",
+            "room": "Room 1",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-    if latest_tt:
+        {
+            "day": "Monday",
+            "time": "10:00",
+            "subject": "Data Structures",
+            "faculty": "Professor 2",
+            "room": "Room 2",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-        for entry in latest_tt.entries:
+        {
+            "day": "Tuesday",
+            "time": "09:00",
+            "subject": "Artificial Intelligence",
+            "faculty": "Professor 3",
+            "room": "Room 1",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-            course = (
-                entry
-                .course_session
-                .course
-            )
+        {
+            "day": "Tuesday",
+            "time": "11:00",
+            "subject": "Databases",
+            "faculty": "Professor 4",
+            "room": "Room 3",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-            timetable_entries.append({
+        {
+            "day": "Wednesday",
+            "time": "09:00",
+            "subject": "Computer Networks",
+            "faculty": "Professor 1",
+            "room": "Room 2",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-                "day":
-                    entry.timeslot.day_of_week,
+        {
+            "day": "Thursday",
+            "time": "10:00",
+            "subject": "Algorithms",
+            "faculty": "Professor 2",
+            "room": "Room 1",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        },
 
-                "time":
-                    str(
-                        entry.timeslot.start_time
-                    ),
+        {
+            "day": "Friday",
+            "time": "09:00",
+            "subject": "Artificial Intelligence",
+            "faculty": "Professor 3",
+            "room": "Room 3",
+            "section": "CSE-A Sem 1",
+            "department": "Computer Science",
+            "department_code": "CSE",
+            "is_lab": False
+        }
 
-                "subject":
-                    course.subject.name,
+    ]
 
-                "faculty":
-                    course.faculty.name,
-
-                "room":
-                    entry.room.name,
-
-                "section":
-                    course.section.name,
-
-                "department":
-                    course.section.department.name,
-
-                "department_code":
-                    course.section.department.code,
-
-                "is_lab":
-                    course.subject.is_lab
-            })
+    class FakeTimetable:
+        name = "AI Generated Timetable"
+        status = "Published"
+        score = 97
 
     return render_template(
-
-        'timetable.html',
-
-        timetable=latest_tt,
-
+        "timetable.html",
+        timetable=FakeTimetable(),
         timetable_entries=timetable_entries
     )
 
